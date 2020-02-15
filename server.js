@@ -18,13 +18,11 @@ mongoose.connect(Mongodb_Uri || 'mongobd://localhost/my_database',{
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
-t 
-
 mongoose.connection.on('connected',()=>{
     console.log('Mongoose is connected!!!');
 });
 
-//thses make them(either it be json or url) available to the request
+//these make them(either it be json or url) available to the request
 
 app.use(express.json()); //middle word parse every json
 app.use(express.urlencoded({extended:false})); //parse every url
