@@ -67,7 +67,7 @@ onSubmit=(event)=>{
   .catch(()=>{
     console.log('Internal server error');
   });
-  window.location = '/homepage';
+  window.location = '/forum';
 };
 
 

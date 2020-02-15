@@ -65,12 +65,12 @@ class User extends React.Component{
      }
      else if(res.data.msg=="Authentication Successful"){
       alert("Login Successful");
-       window.location = '/homepage';
+       window.location = '/forum';
      }
     //  console.log('Login Successful');
     //  this.resetUserInput();
     //  alert("Login Successful");
-    //  window.location = '/homepage';
+    //  window.location = '/forum';
     
    })
    .catch(()=>{
