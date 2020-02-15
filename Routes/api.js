@@ -3,7 +3,7 @@ const router=express.Router();
 const BlogPost=require('../models/BlogPost');
 
 //Installing some Routes in our server
-router.get('/',(req,res)=>{
+router.get('/api',(req,res)=>{
     BlogPost.find({})
         .then((data)=>{
             console.log('Data:', data);
@@ -14,7 +14,7 @@ router.get('/',(req,res)=>{
         });
 });
 
-router.post('/save',(req,res)=>{
+router.post('/api/save',(req,res)=>{
     console.log('Body', req.body);
     const data=req.body;
     const newBlogPost= new BlogPost(data);

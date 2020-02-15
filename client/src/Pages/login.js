@@ -1,52 +1,86 @@
-
-
 import React from 'react';
 import axios from 'axios';
 import './css/signup.css';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-class App extends React.Component{
- state={
-   title:"",
-   body:"",
-   posts:[]
- };
- handleChange=(event)=>{
-    const target=event.target;
-    const name=target.name;
-    const value=target.value;
+class User extends React.Component{
+  state={
+    username:"",
+    password:""
+  };
+ 
+  resetUserInput= ()=>{
    this.setState({
-     [name]:value 
+     username:"",
+     password:""
    });
-  };
-submit=(event)=>{
-  event.preventDefault();//prevent browser from refreshing
-  const payload={
-    title:this.state.title,
-    body:this.state.body
-  };
-  //http call
-  axios({
-    url:'/api/save',
-    method:'POST',
-    data:payload
-  })
-  .then(()=>{
-    console.log('Data has been sent to the server');
-    this.resetUserInput();
-  })
-  .catch(()=>{
-    console.log('Internal server error');
-  });;
-};
-
-resetUserInput= ()=>{
-  this.setState({
-   title:"", 
-   body:""
-  });
-}
+ }
+ 
+  
+  onChangeUsername=(e)=>{
+   this.setState({
+     username:e.target.value
+   });
+ }
+ onChangePassword=(e)=>{
+   this.setState({
+     password:e.target.value
+   });
+ }
+ //  handleChange=(event)=>{
+ //     const target=event.target;
+ //     const name=target.name;
+ //     const value=target.value;
+ //    this.setState({
+ //      [name]:value 
+ //    });
+ //   };
+ onSubmit=(event)=>{
+   console.log("sahf");
+   event.preventDefault();//prevent browser from refreshing
+   const detail={
+     username:this.state.username,
+     password:this.state.password
+   };
+ 
+   //console.log(detail);
+ 
+   //http call
+   // axios({
+   //   url:'localhost:3000/signup/newUser',
+   //   method:'POST',
+   //   data:detail
+   // })
+   axios.get('/login/log',{
+     params: {
+       username : detail.username,
+       password : detail.password
+     }})
+   .then(res=>{
+     console.log(res.data);
+     if(res.data.msg=="User not Found"||res.data.msg=="Wrong Password"){
+      alert("Login Failed, Incorrect Username and Password");
+      window.location = '/login';
+     }
+     else if(res.data.msg=="Authentication Successful"){
+      alert("Login Successful");
+       window.location = '/homepage';
+     }
+    //  console.log('Login Successful');
+    //  this.resetUserInput();
+    //  alert("Login Successful");
+    //  window.location = '/homepage';
+    
+   })
+   .catch(()=>{
+     console.log('Internal server error');
+     alert("Login Failed, Incorrect Username and Password");
+     window.location = '/login';
+   });
+   
+ };
+ 
 
   render(){
     return(
@@ -55,15 +89,27 @@ resetUserInput= ()=>{
         <h1 className="h">Login</h1><br/><br/>
         <Form>
         <Form.Group controlId="formGroupEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" />
+          <Form.Label>User Name</Form.Label>
+          <Form.Control type="text"
+                        placeholder="Enter Username" 
+                        required
+                        value={this.state.username}
+                        onChange={this.onChangeUsername}
+                        />
         </Form.Group>
         <Form.Group controlId="formGroupPassword">
   <Form.Label>Password</Form.Label>
-  <Form.Control type="password" placeholder="Password" />
+  <Form.Control type="password" 
+                placeholder="Password"
+                required
+                value={this.state.password}
+                onChange={this.onChangePassword} />
 </Form.Group>
         <div className="bttn">
-        <Button  variant="primary" type="submit">
+        <Button  variant="primary"
+                 type="submit"
+                 onClick={this.onSubmit}
+                 >
           Submit Form
         </Button>
        </div>
@@ -88,4 +134,4 @@ resetUserInput= ()=>{
     )
   }
 }
-export default App;
+export default User;

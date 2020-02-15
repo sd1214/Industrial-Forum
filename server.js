@@ -33,17 +33,3 @@ app.use('/api',routes);
 
 app.listen(PORT, console.log(`Server is starting at ${PORT}`));
 
-// //Saving data to our mongo Database
-// const data={
-//     title:"Hello everyone Welcome to my blog",
-//     body: "this is my testing file and I am  doing well."
-// };
-
-//const NewPost= new BlogPost(data);  //instance of the model
-// NewPost.save((error)=>{
-//     if(error){
-//         console.log('Ooops, Something Wrong!!!!');
-//     }
-//     else
-//        console.log('Data has been Saved!!!');
-// }); 

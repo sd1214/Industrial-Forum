@@ -4,47 +4,73 @@ import './css/signup.css';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-class App extends React.Component{
+class User extends React.Component{
  state={
-   title:"",
-   body:"",
-   posts:[]
+   email:"",
+   username:"",
+   password:""
  };
- handleChange=(event)=>{
-    const target=event.target;
-    const name=target.name;
-    const value=target.value;
+
+ resetUserInput= ()=>{
+  this.setState({
+    email:"",
+    username:"",
+    password:""
+  });
+}
+
+ onChangeEmail=(e)=>{
    this.setState({
-     [name]:value 
+     email:e.target.value
    });
-  };
-submit=(event)=>{
+ }
+ onChangeUsername=(e)=>{
+  this.setState({
+    username:e.target.value
+  });
+}
+onChangePassword=(e)=>{
+  this.setState({
+    password:e.target.value
+  });
+}
+//  handleChange=(event)=>{
+//     const target=event.target;
+//     const name=target.name;
+//     const value=target.value;
+//    this.setState({
+//      [name]:value 
+//    });
+//   };
+onSubmit=(event)=>{
+  console.log("sahf");
   event.preventDefault();//prevent browser from refreshing
-  const payload={
-    title:this.state.title,
-    body:this.state.body
+  const detail={
+    email:this.state.email,
+    username:this.state.username,
+    password:this.state.password
   };
+
+  console.log(detail);
+
   //http call
-  axios({
-    url:'/api/save',
-    method:'POST',
-    data:payload
-  })
+  // axios({
+  //   url:'localhost:3000/signup/newUser',
+  //   method:'POST',
+  //   data:detail
+  // })
+  axios.post('/signup/newUser', detail)
   .then(()=>{
     console.log('Data has been sent to the server');
     this.resetUserInput();
   })
   .catch(()=>{
     console.log('Internal server error');
-  });;
+  });
+  window.location = '/homepage';
 };
 
-resetUserInput= ()=>{
-  this.setState({
-   title:"",
-   body:""
-  });
-}
+
 
   render(){
     return(
@@ -53,15 +79,36 @@ resetUserInput= ()=>{
         <h1>Sign Up</h1><br/><br/>
         <Form>
   <Form.Group controlId="formGroupEmail">
-    <Form.Label>Email address</Form.Label>
-    <Form.Control type="email" placeholder="Enter email" />
+    <Form.Label>Email address <span style={{color:"red"}}>*</span></Form.Label>
+    <Form.Control type="email"
+                  placeholder="Enter email"
+                  required
+                  value={this.state.email}
+                  onChange={this.onChangeEmail}
+                  />
+  </Form.Group>
+  <Form.Group controlId="formGroupUsername">
+    <Form.Label>User Name <span style={{color:"red"}}>*</span></Form.Label>
+    <Form.Control type="text"
+                  placeholder="Enter Username"
+                  required
+                  value={this.state.username}
+                  onChange={this.onChangeUsername}
+                  />
   </Form.Group>
   <Form.Group controlId="formGroupPassword">
-    <Form.Label>Password</Form.Label>
-    <Form.Control type="password" placeholder="Password" />
+    <Form.Label>Password <span style={{color:"red"}}>*</span></Form.Label>
+    <Form.Control type="password" 
+                  placeholder="Password" 
+                  required
+                  value={this.state.password}
+                  onChange={this.onChangePassword} />
   </Form.Group>
   <div className="bttn">
-  <Button  variant="primary" type="submit">
+  <Button  variant="primary" 
+           type="submit"
+           onClick={this.onSubmit}
+           >
     Submit Form
   </Button>
   </div>
@@ -86,4 +133,4 @@ resetUserInput= ()=>{
     )
   }
 }
-export default App;
+export default User;

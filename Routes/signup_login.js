@@ -4,14 +4,14 @@ const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 // const envVariables = require('./../envVariables');
 const url = `mongodb+srv://sd1214:database@firstcluster-ix5me.mongodb.net/test?retryWrites=true&w=majority`;
-coreRouter.get('/', (req, res) => {
-	res.send('<h1>Basic get for http</h1>');
-});
 
-coreRouter.get('/login', (req, res) => {
+
+coreRouter.get('/login/log', (req, res) => {
 	const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
-	const userName = req.body.name;
-	const userPass = req.body.password;
+	const userName = req.query.username;
+	const userPass = req.query.password;
+	// console.log(req.query);
+	// console.log(userPass)
 	// console.log(userName);
 	client.connect(async (err) => {
 		if (err) {
@@ -24,7 +24,7 @@ coreRouter.get('/login', (req, res) => {
 			// console.log(docs);
 			if (docs.length) {
 				if (docs[0].password == userPass) {
-					res.json({ msg: 'Authentication Succesfull' });
+					res.json({ msg: 'Authentication Successful' });
 				} else {
 					res.json({ msg: 'Wrong Password' });
 				}
@@ -36,11 +36,15 @@ coreRouter.get('/login', (req, res) => {
 	});
 });
 
-coreRouter.post('/signup', (req, res) => {
+coreRouter.post('/signup/newUser', (req, res) => {
 	const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
-	const userName = req.body.name;
+	const email= req.body.email;
+	const userName = req.body.username;
 	const userPass = req.body.password;
-	if (!userName) {
+	if (!email) {
+		return res.json({ msg: 'Please enter email' });
+	}
+	else if (!userName) {
 		return res.json({ msg: 'Please enter username' });
 	} else if (!userPass) {
 		return res.json({ msg: 'Please enter password' });
@@ -54,13 +58,14 @@ coreRouter.post('/signup', (req, res) => {
 			const db = client.db('Edgistify');
             var collection = db.collection('users');
             var docs = await collection.find({username   : userName}).toArray();
-            console.log(docs.length)
+            //console.log(docs.length)
             if(docs.length!=0){
                 console.log(docs.length)
                 console.log("Username already present");
                 return res.json({msg: 'Username already existing'});
             }
 			const user = {
+				email:email,
 				username: userName,
 				password: userPass,
 			};
