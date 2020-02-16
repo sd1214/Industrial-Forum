@@ -43,7 +43,6 @@ onChangePassword=(e)=>{
 //    });
 //   };
 onSubmit=(event)=>{
-  console.log("sahf");
   event.preventDefault();//prevent browser from refreshing
   const detail={
     email:this.state.email,

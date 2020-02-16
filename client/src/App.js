@@ -6,7 +6,7 @@ import home from "./Pages/forum";
 import signup from "./Pages/signup";
 import login from "./Pages/login";
 import card from "./Pages/card"
-
+import comment from "./Pages/comment_page";
 
 class App extends Component {
   render() {
@@ -21,6 +21,7 @@ class App extends Component {
             <Route exact path='/login'component={login} />
             <Route exact path='/signup'component={signup} />
             <Route exact path='/card'component={card} />
+            <Route exact path='/forum/comment_page' component={comment}/>
           </Switch>
         </div>
       </BrowserRouter>

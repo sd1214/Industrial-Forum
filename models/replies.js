@@ -1,8 +1,9 @@
 var mongoose = require("mongoose");
  
 var ReplySchema = new mongoose.Schema({
+    username: String,
     text: String,
-    username: String
+    created_date:String
     }
 );
  
