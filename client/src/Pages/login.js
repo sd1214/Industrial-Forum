@@ -86,7 +86,7 @@ class User extends React.Component{
     return(
       <div className="base1">
       <Card className="card1">
-        <h1 className="h">Login</h1><br/><br/>
+        <h1 className="h">Login</h1><br/>
         <Form>
         <Form.Group controlId="formGroupEmail">
           <Form.Label>User Name</Form.Label>

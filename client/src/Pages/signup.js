@@ -75,7 +75,7 @@ onSubmit=(event)=>{
     return(
       <div className="base"> 
       <Card id="2" className="card2">
-        <h1>Sign Up</h1><br/><br/>
+        <h1>Sign Up</h1><br/>
         <Form>
   <Form.Group controlId="formGroupEmail">
     <Form.Label>Email address <span style={{color:"red"}}>*</span></Form.Label>
