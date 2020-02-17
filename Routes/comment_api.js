@@ -1,9 +1,9 @@
 const router = require('express').Router();
-let User = require('../models/BlogPost');
+let User = require('../models/comments');
 
 router.route('/').get((req, res) => {
   User.find()
-    .then(postMsg => res.json(postMsg))
+    .then(postcomment => res.json(postcomment))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
@@ -12,12 +12,13 @@ router.route('/').get((req, res) => {
 /////check this post req.
 
 
-
 router.route('/add').post((req, res) => {
+  const parent_id=1;    
   const title = req.body.title;
   const newItem = req.body.newItem;
   const date = new Date();
   const newData = new User({
+    parent_id,
     title,
     date,
     newItem

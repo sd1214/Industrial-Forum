@@ -1,9 +1,10 @@
 var mongoose = require("mongoose");
  
 var ReplySchema = new mongoose.Schema({
-    username: String,
-    text: String,
-    created_date:String
+    parent_id:String,
+    title: String,
+    date: String,
+    newItem: String,
     }
 );
  

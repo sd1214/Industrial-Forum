@@ -38,7 +38,7 @@ coreRouter.get('/login/log', (req, res) => {
 
 coreRouter.post('/signup/newUser', (req, res) => {
 	const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
-	const email= req.body.email;
+	const email = req.body.email;
 	const userName = req.body.username;
 	const userPass = req.body.password;
 	if (!email) {
@@ -57,25 +57,25 @@ coreRouter.post('/signup/newUser', (req, res) => {
 		} else {
 			const db = client.db('Edgistify');
 			var collection = db.collection('users');
-			var email_id=await collection.find({email: email}).toArray();
-            var docs = await collection.find({username   : userName}).toArray();
+			var email_id = await collection.find({ email: email }).toArray();
+			var docs = await collection.find({ username: userName }).toArray();
 			//console.log(docs.length)
-			if(email_id.length!=0){
-                console.log(docs.length)
+			if (email_id.length != 0) {
+				console.log(docs.length)
 				console.log("Email-ID already present");
-                return res.json({msg: 'Email-Id already Registered'});
-            }
-            if(docs.length!=0){
-                console.log(docs.length)
+				return res.json({ msg: 'Email-Id already Registered' });
+			}
+			if (docs.length != 0) {
+				console.log(docs.length)
 				console.log("Username already present");
-                return res.json({msg: 'Username already existing'});
-            }
+				return res.json({ msg: 'Username already existing' });
+			}
 			const user = {
-				email:email,
+				email: email,
 				username: userName,
 				password: userPass,
 			};
-			await collection.insertOne( user );
+			await collection.insertOne(user);
 			docs = await collection.find({}).toArray();
 			res.json(docs);
 		}

@@ -1,9 +1,15 @@
-var mongoose = require("mongoose");
- 
-var commentSchema = new mongoose.Schema({
-    parent_id:Object_Id[],
-    username: String,
-    text: String,
+const mongoose = require('mongoose');
+
+//Schema
+const Schema = mongoose.Schema;
+const CommentSchema = new Schema({
+    parent_id:String,
+    title: String,
+    date: String,
+    newItem: String,
+
 });
- 
-module.exports = mongoose.model("Comment", commentSchema);
+//Model
+const Comment = mongoose.model('Comment', CommentSchema);
+
+module.exports = Comment;
