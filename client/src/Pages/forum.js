@@ -5,18 +5,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import './css/post.css';
 import axios from 'axios';
-/*
-function App(){
-   return (
-     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" />
-      </header>
-     </div>
-   );
-  
-}
-*/
+
 
 class App extends React.Component{
      state={
@@ -118,45 +107,6 @@ class App extends React.Component{
         this.resetUserInput();
       });
   }
-  // constructor(props)
-  // {
-  //   super(props);
-  //   this.state={
-
-  //     newItem:"",
-  //     list:[]
-  //   };
-  // }
-  // addItem(todoValue)
-  // {
-  //   if(todoValue !== "")
-  //   {
-  //     const newItem={
-  //       id:Date.now(),
-  //       value: todoValue,
-  //       isDone:false
-  //     };
-  //     const list = [...this.state.list];
-  //     list.push(newItem);
-
-  //     this.setState({
-  //       list,
-  //       newItem:""
-  //     });
-  //   }
-  // }
-  
-  // deleteItem(id){
-  //   const list=[...this.state.list];
-  //   const updatedlist= list.filter(item=> item.id!==id);
-  //   this.setState({
-  //     list:updatedlist
-  //   });
-  // }
-
-  // updateInput(input){
-  //   this.setState({newItem:input});
-  // }
 
   render()
   {return (
@@ -217,15 +167,3 @@ class App extends React.Component{
   }
 }
 export default App;
-{/* <Card style={{ width: '18rem' }}>
-  <Card.Body>
-    <Card.Title><input type="text"/></Card.Title>
-    <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
-    <Card.Text>
-      Some quick example text to build on the card title and make up the bulk of
-      the card's content.
-    </Card.Text>
-    <Card.Link href="#">Card Link</Card.Link>
-    <Card.Link href="#">Another Link</Card.Link>
-  </Card.Body>
-</Card> */}

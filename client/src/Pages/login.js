@@ -43,7 +43,11 @@ class User extends React.Component{
      username:this.state.username,
      password:this.state.password
    };
- 
+   if(!detail.username || !detail.password)
+   { 
+     alert("Please fill all the details")
+     event.preventDefault();
+   }
    //console.log(detail);
  
    //http call
@@ -52,6 +56,7 @@ class User extends React.Component{
    //   method:'POST',
    //   data:detail
    // })
+   else{
    axios.get('/login/log',{
      params: {
        username : detail.username,
@@ -78,7 +83,7 @@ class User extends React.Component{
      alert("Login Failed, Incorrect Username and Password");
      window.location = '/login';
    });
-   
+  }
  };
  
 

@@ -56,12 +56,18 @@ coreRouter.post('/signup/newUser', (req, res) => {
 			res.json({ msg: 'Server connection error' });
 		} else {
 			const db = client.db('Edgistify');
-            var collection = db.collection('users');
+			var collection = db.collection('users');
+			var email_id=await collection.find({email: email}).toArray();
             var docs = await collection.find({username   : userName}).toArray();
-            //console.log(docs.length)
+			//console.log(docs.length)
+			if(email_id.length!=0){
+                console.log(docs.length)
+				console.log("Email-ID already present");
+                return res.json({msg: 'Email-Id already Registered'});
+            }
             if(docs.length!=0){
                 console.log(docs.length)
-                console.log("Username already present");
+				console.log("Username already present");
                 return res.json({msg: 'Username already existing'});
             }
 			const user = {

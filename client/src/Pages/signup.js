@@ -4,6 +4,7 @@ import './css/signup.css';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+
 class User extends React.Component{
  state={
    email:"",
@@ -34,14 +35,7 @@ onChangePassword=(e)=>{
     password:e.target.value
   });
 }
-//  handleChange=(event)=>{
-//     const target=event.target;
-//     const name=target.name;
-//     const value=target.value;
-//    this.setState({
-//      [name]:value 
-//    });
-//   };
+
 onSubmit=(event)=>{
   event.preventDefault();//prevent browser from refreshing
   const detail={
@@ -49,24 +43,34 @@ onSubmit=(event)=>{
     username:this.state.username,
     password:this.state.password
   };
-
+  if(!detail.email || !detail.username || !detail.password)
+  { 
+    alert("Please fill all the details")
+    event.preventDefault();
+  }else{
   console.log(detail);
-
-  //http call
-  // axios({
-  //   url:'localhost:3000/signup/newUser',
-  //   method:'POST',
-  //   data:detail
-  // })
   axios.post('/signup/newUser', detail)
-  .then(()=>{
+  .then((res)=>{
+    if(res.data.msg==='Username already existing')
+    {
+      alert("Username already existing");
+      window.location = '/signup';
+    }
+    else if(res.data.msg==='Email-Id already Registered')
+    {
+      alert("Email-Id already Registered");
+      window.location = '/signup';
+    }
+    else{
     console.log('Data has been sent to the server');
     this.resetUserInput();
+    window.location = '/forum';
+    }
   })
   .catch(()=>{
     console.log('Internal server error');
   });
-  window.location = '/forum';
+}
 };
 
 
@@ -81,9 +85,9 @@ onSubmit=(event)=>{
     <Form.Label>Email address <span style={{color:"red"}}>*</span></Form.Label>
     <Form.Control type="email"
                   placeholder="Enter email"
-                  required
                   value={this.state.email}
                   onChange={this.onChangeEmail}
+                  reqiured
                   />
   </Form.Group>
   <Form.Group controlId="formGroupUsername">
@@ -113,21 +117,6 @@ onSubmit=(event)=>{
   </div>
 </Form>      
       </Card>
-          {/* <div id="login_box">
-           <h1>Sign Up</h1>
-          <form  className="form" action='sign_up.php' method='POST'>
-            <label class="notice">Please fill in the form to create an account</label>
-            <br/><br/>
-           <input type="text" name="username" id="username" placeholder="Username" required />
-           <input type="text" name="number" id="number" placeholder="Mobile Number" required />
-           <input type="email" name="email" id="email" placeholder="Email" required />
-           <input type="password" name="password" id="password" placeholder="Password" required />
-           <input type="password" name="r_password" id="r_password" placeholder="Re-enter Password" required />
-           <button class="signup" name="signup" type="submit" id="signup" onclick="isremember()">Sign Up</button>
-           <a href="home_page.php" class="cancel">Cancel</a>
-         </form>
-    </div>
-    <p class="text">Already a user? <a class="a" href='#'>Login</a></p> */}
     </div>
     )
   }
