@@ -52,11 +52,10 @@ class User extends React.Component {
         .then((res) => {
           if (res.data.msg === 'Username already existing') {
             alert("Username already existing");
-            window.location = '/signup';
+            
           }
           else if (res.data.msg === 'Email-Id already Registered') {
             alert("Email-Id already Registered");
-            window.location = '/signup';
           }
           else {
             console.log('Data has been sent to the server');

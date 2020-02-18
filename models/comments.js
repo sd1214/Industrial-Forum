@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const CommentSchema = new Schema({
     parent_id:String,
+    child_id:String,
     comment_by:String,
     newItem:String,
     n_date:String,

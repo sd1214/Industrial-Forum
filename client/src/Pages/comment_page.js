@@ -13,6 +13,7 @@ import axios from 'axios';
 class Comment extends React.Component {
   state = {
     parent_id: "",
+    child_id:"",
     title: "",
     date: "Just Now",    ////write function for all onChange and designing
     post: "",
@@ -25,7 +26,6 @@ class Comment extends React.Component {
 
   resetUserInput = () => {
     this.setState({
-      parent_id: "",
       title: "",
       date: "Just Now",
       post: "",
@@ -41,6 +41,10 @@ class Comment extends React.Component {
     // console.log(window.location.href)
     var url = new URL(window.location.href)
     var id = url.searchParams.get("id")
+    this.setState({
+      parent_id:id,
+      child_id:id
+    })
     // console.log("id",id)
     axios.get('/forum/comment_page/getItem', {
       params: {
@@ -126,6 +130,7 @@ class Comment extends React.Component {
 
     const detail = {
       parent_id: this.state.parent_id,
+      child_id:this.state.child_id,
       comment_by: this.state.comment_by,
       newItem: this.state.newItem,
       n_date: "",

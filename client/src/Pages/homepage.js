@@ -151,7 +151,7 @@ collected three years of ground intelligence that we want to share.</p>
                         <Card.Title style={{ fontWeight: "900" }, { textTransform: "uppercase" }, { color: "#0377fc" }}>Author: @{item.title}</Card.Title>
 
                         <Card.Text > {item.newItem} </Card.Text>
-                        <Card.Link href="#" style={{ color: "#081940" }, { fontWeight: "700" }}>Comment</Card.Link>
+                        <Button  variant="link" onClick={(e)=>{e.preventDefault();alert("Please Login to Comment")}} href="#" style={{ color: "#081940" }}>Comment</Button>
                       </Card.Body>
                     </Card>
                   </div>

@@ -2,7 +2,7 @@ const router = require('express').Router();
 let User = require('../models/comments');
 let user = require('../models/BlogPost');
 router.route('/').get((req, res) => {
-  User.find()
+  User.find({child_id: req.query.id})
     .then(postcomment => res.json(postcomment))
     .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -18,12 +18,14 @@ router.route('/getItem').get((req,res)=>{
 
 router.route('/add').post((req, res) => {
   const parent_id=req.body.parent_id;    
+  const child_id=req.body.parent_id;
   const comment_by = req.body.comment_by;
   const newItem = req.body.newItem;
   const replied_to = req.body.replied_to;
   const n_date = new Date();
   const newData = new User({
     parent_id,
+    child_id,
     comment_by,
     newItem,
     n_date,
