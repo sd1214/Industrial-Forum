@@ -4,10 +4,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const CommentSchema = new Schema({
     parent_id:String,
-    title: String,
-    date: String,
-    newItem: String,
-
+    comment_by:String,
+    newItem:String,
+    n_date:String,
+    replied_to:String
 });
 //Model
 const Comment = mongoose.model('Comment', CommentSchema);

@@ -29,6 +29,7 @@ class App extends React.Component {
       .then(res => {
         var list = [...this.state.list]; //... is spread attribute
         list = res.data;
+        list.reverse();
         console.log("res");
         console.log(res.data);
         this.setState({
@@ -78,7 +79,11 @@ class App extends React.Component {
       newItem: e.target.value
     })
   };
-
+  onComment=()=>{
+    // var url = new URL(this.props.location.hash)
+    // var id = url.searchParams.get("id")
+    // console.log("id",id)
+  }
   onSubmit = (e) => {
 
     const detail = {
@@ -96,6 +101,7 @@ class App extends React.Component {
       .then(res => {
         var list = [...this.state.list]; //... is spread attribute
         list = res.data;
+        list.reverse();
         console.log(list);
         // console.log(res.data);
         this.setState({
@@ -150,7 +156,7 @@ class App extends React.Component {
                         <Card.Title style={{ fontWeight: "900" }, { textTransform: "uppercase" }, { color: "#0377fc" }}>Author: @{item.title}</Card.Title>
 
                         <Card.Text > {item.newItem} </Card.Text>
-                        <Card.Link href="#" style={{ color: "#081940" }, { fontWeight: "700" }}>Comment</Card.Link>
+                        <Button href={`forum/comment_page?id=${item._id}`} style={{ color: "#081940" }, { fontWeight: "700" }}>Comment</Button>
                       </Card.Body>
                     </Card>
                   </div>

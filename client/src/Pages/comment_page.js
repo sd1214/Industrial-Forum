@@ -14,9 +14,13 @@ class Comment extends React.Component {
   state = {
     parent_id: "",
     title: "",
-    date: "Just Now",
+    date: "Just Now",    ////write function for all onChange and designing
+    post: "",
     newItem: "",
-    list: []
+    list: [],
+    n_date: "Just Now",
+    comment_by: "",
+    replied_to: ""
   };
 
   resetUserInput = () => {
@@ -24,16 +28,41 @@ class Comment extends React.Component {
       parent_id: "",
       title: "",
       date: "Just Now",
+      post: "",
       newItem: "",
-      list: []
+      list: [],
+      n_date: "Just Now",
+      comment_by: "",
+      replied_to: ""
     })
   }
 
   componentDidMount() {
-    axios.get('/forum/comment_page')
+    // console.log(window.location.href)
+    var url = new URL(window.location.href)
+    var id = url.searchParams.get("id")
+    // console.log("id",id)
+    axios.get('/forum/comment_page/getItem', {
+      params: {
+        id: id
+      }
+    })
+      .then(res => {
+        this.setState({
+          post: res.data[0].newItem,
+          title: res.data[0].title,
+          date: res.data[0].date,
+        })
+      })
+    axios.get('/forum/comment_page', {
+      params: {
+        id: id
+      }
+    })
       .then(res => {
         var list = [...this.state.list]; //... is spread attribute
         list = res.data;
+        list.reverse();
         console.log("res");
         console.log(res.data);
         this.setState({
@@ -83,14 +112,24 @@ class Comment extends React.Component {
       newItem: e.target.value
     })
   };
-
+  onChangeCommented_by=(e)=>{
+    this.setState({
+      comment_by:e.target.value
+    })
+  };
+  onChangeReplied_to=(e)=>{
+    this.setState({
+      replied_to:e.target.value
+    })
+  };
   onSubmit = (e) => {
 
     const detail = {
       parent_id: this.state.parent_id,
-      title: this.state.title,
+      comment_by: this.state.comment_by,
       newItem: this.state.newItem,
-      date: this.timeAgo(new Date()),
+      n_date: "",
+      replied_to: this.state.replied_to
     }
     console.log(detail);
     axios.post("/forum/comment_page/add", detail)
@@ -102,6 +141,7 @@ class Comment extends React.Component {
       .then(res => {
         var list = [...this.state.list]; //... is spread attribute
         list = res.data;
+        list.reverse();
         console.log(list);
         // console.log(res.data);
         this.setState({
@@ -134,11 +174,11 @@ class Comment extends React.Component {
             <Col>    {/*                                   post                                              */}
               <Card className="text-white bg-success mb-3" style={{ width: '19rem' }}>
                 <Card.Body>
-                  <Card.Subtitle className="mb-2 text-muted text-right">date</Card.Subtitle>
-                  <Card.Title style={{ color: "#aabdba" }}>@Author</Card.Title>
+                  <Card.Subtitle className="mb-2 text-muted text-right">{this.timeAgo(this.state.date)}</Card.Subtitle>
+                  <Card.Title style={{ color: "#022620" }}>Author: @{this.state.title}</Card.Title>
                   <Card.Text >
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed. Fermentum leo vel orci porta non pulvinar neque laoreet. Adipiscing enim eu turpis egestas pretium aenean.
-                </Card.Text>
+                    {this.state.post}
+                  </Card.Text>
                 </Card.Body>
               </Card><br />
             </Col>
@@ -147,11 +187,17 @@ class Comment extends React.Component {
                 <Col>    {/*                                 write a Comment                                             */}
                   <Card className="text-center" style={{ width: '22rem' }}>
                     <Card.Body>
+                      <Card.Title><input className="input-sm"
+                        type="text"
+                        placeholder="Comment by..."
+                        value={this.state.comment_by}
+                        onChange={this.onChangeCommented_by}
+                      /></Card.Title>
                       <Card.Title><input
                         type="text"
-                        placeholder="User Name..."
-                        value={this.state.title}
-                        onChange={this.onChangeTitle}
+                        placeholder="Reply to..."
+                        value={this.state.replied_to}
+                        onChange={this.onChangeReplied_to}
                       /></Card.Title>
                       {/* <Card.Subtitle className="mb-2 text-muted text-right">{this.state.date}</Card.Subtitle> */}
                       <Card.Text>
@@ -170,59 +216,14 @@ class Comment extends React.Component {
                   {this.state.list.map(item => {
                     return (
                       <Media>
-                        <Media.Body>
+                        <Media.Body key={item._id}>
                           <Toast>
                             <Toast.Header>
-                              <strong className="mr-auto" style={{ color: "#240e33" }}>Commented by @{item.title}</strong>
-                              <small style={{ color: "#23262e" }}>{this.timeAgo(item.date)}</small>
+                              <strong className="mr-auto" style={{ color: "#240e33" }}>Commented by @{item.comment_by}</strong>
+                              <strong className="mr-auto" style={{ color: "#240e33" }}>Replied to @{item.replied_to}</strong>
+                              <small style={{ color: "#23262e" }}>{this.timeAgo(item.n_date)}</small>
                             </Toast.Header>
                             <Toast.Body style={{ color: "#040c21" }}>{item.newItem}
-                              <Button variant="link" onClick={1} >reply</Button>
-                            </Toast.Body>
-                          </Toast><br />
-                        </Media.Body>
-                      </Media>
-                    )
-                  })}
-
-                </Col>
-              </Row>
-              <Row>
-              <Col>    {/*                                   Write a Reply                                                */}
-                  <Card className="text-center" style={{ width: '19rem' }}>
-                  <Card.Body>
-                      <Card.Title><input
-                        type="text"
-                        placeholder="User Name..."
-                        value={this.state.title}
-                        onChange={this.onChangeTitle}
-                      /></Card.Title>
-                     
-                      {/* <Card.Subtitle className="mb-2 text-muted text-right">{this.state.date}</Card.Subtitle> */}
-                      <Card.Text>
-                        <textarea
-                          className="input-text"
-                          placeholder="Reply here...."
-                          required
-                          value={this.state.newItem}
-                          onChange={this.onChangeText}
-                        ></textarea>
-                      </Card.Text>
-                      <Button variant="primary" onClick={this.onSubmit}>Reply</Button>
-                    </Card.Body>
-                  </Card><br />
-                  {/*                                   Reply posted                                              */}
-                  {this.state.list.map(item => {
-                    return (
-                      <Media>
-                        <Media.Body>
-                          <Toast>
-                            <Toast.Header>
-                              <strong className="mr-auto" style={{ color: "#240e33" }}>Replied by @{item.title}</strong>
-                              <small style={{ color: "#23262e" }}>{this.timeAgo(item.date)}</small>
-                            </Toast.Header>
-                            <Toast.Body style={{ color: "#040c21" }}>{item.newItem}
-                              <Button variant="link" onClick={1} >reply</Button>
                             </Toast.Body>
                           </Toast><br />
                         </Media.Body>

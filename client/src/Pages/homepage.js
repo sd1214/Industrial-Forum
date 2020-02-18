@@ -30,6 +30,7 @@ class App extends React.Component {
       .then(res => {
         var list = [...this.state.list]; //... is spread attribute
         list = res.data;
+        list.reverse();
         console.log("res");
         console.log(res.data);
         this.setState({
@@ -99,6 +100,7 @@ class App extends React.Component {
       .then(res => {
         var list = [...this.state.list]; //... is spread attribute
         list = res.data;
+        list.reverse();
         console.log(list);
         // console.log(res.data);
         this.setState({

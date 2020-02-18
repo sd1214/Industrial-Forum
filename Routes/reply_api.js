@@ -13,7 +13,7 @@ router.route('/').get((req, res) => {
 
 
 router.route('/add').post((req, res) => {
-  const parent_id=1;    
+  const parent_id=req.body.parent_id;    
   const title = req.body.title;
   const newItem = req.body.newItem;
   const date = new Date();
